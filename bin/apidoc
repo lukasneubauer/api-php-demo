@@ -1,0 +1,20 @@
+#!/bin/sh
+
+cd "$(dirname "$(command -v "$0")")" || exit 1
+
+root_dir="$(realpath "$PWD/..")"
+
+cd "$root_dir" || exit 1
+
+embed_js_file='apiary/embed.js'
+
+apib_file='apiary/api-description.apib'
+html_file='apiary/api-description.html'
+
+if ! [ -f "$embed_js_file" ] ; then
+    curl -fsLS 'https://api.apiary.io/seeds/embed.js' > "$embed_js_file"
+fi
+
+apiary preview --path "$apib_file" --output "$html_file"
+
+node apiary/merge.js

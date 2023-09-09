@@ -1,0 +1,283 @@
+#!/bin/sh
+
+cd "$(dirname "$(command -v "$0")")" || exit 1
+
+root_dir="$(realpath "$PWD/..")"
+
+cd "$root_dir" || exit 1
+
+env_file='.env'
+env_local_file='.env.local'
+
+env="$(cat "$env_file")"
+
+if [ -f "$env_local_file" ] ; then
+    env_local="$(cat "$env_local_file")"
+else
+    env_local=''
+fi
+
+merged_config=''
+overridden_config=''
+reduced_config=''
+
+app_env=''
+app_debug=''
+enable_xdebug=''
+
+env_variables=''
+compose_files=''
+compose_final=''
+
+config()
+{
+    cat << EOL
+dev+xdebug-0=adminer:mysql:nginx:nginx_dev:php:php_dev
+dev+xdebug-1=adminer:mysql:nginx:nginx_dev:php:php_debug:php_dev
+dev_no_request_validation+xdebug-0=adminer:mysql:nginx:nginx_dev:php:php_dev
+dev_no_request_validation+xdebug-1=adminer:mysql:nginx:nginx_dev:php:php_debug:php_dev
+prod+xdebug-0=mysql:mysql_prod:nginx:nginx_prod:php
+prod+xdebug-1=mysql:mysql_prod:nginx:nginx_prod:php:php_debug
+prod_no_email_delivery+xdebug-0=adminer:mysql:nginx:nginx_dev:php:php_dev
+prod_no_email_delivery+xdebug-1=adminer:mysql:nginx:nginx_dev:php:php_debug:php_dev
+test+xdebug-0=adminer:mysql:nginx:nginx_dev:php:php_dev
+test+xdebug-1=adminer:mysql:nginx:nginx_dev:php:php_debug:php_dev
+test_with_profiler+xdebug-0=adminer:mysql:nginx:nginx_dev:php:php_dev
+test_with_profiler+xdebug-1=adminer:mysql:nginx:nginx_dev:php:php_debug:php_dev
+EOL
+}
+
+ask_app_env()
+{
+    variable='APP_ENV'
+
+    variable_default_value="$(grep "^$variable" < "$env_file" | cut -d '=' -f 2-)"
+    environments="$(find config -type f -name 'config_*' | cut -d '_' -f 2- | cut -d '.' -f 1 | sort)"
+    envs=''
+
+    step=0
+    for e in $environments ; do
+        step="$((step + 1))"
+        envs="$(printf '%s\n%s' "$envs" "$step. $e")"
+    done
+
+    printf 'Select number of the environment under which the application should run (default value is: %s):%s\n> ' "$variable_default_value" "$envs"
+    read -r env_input
+
+    if echo "$env_input" | grep -q -v '^[0-9][0-9]*$' ; then
+        env_input=1
+    fi
+
+    step=0
+    for e in $environments ; do
+        step="$((step + 1))"
+        if [ "$step" -eq "$env_input" ] ; then
+            app_env="$e"
+            return
+        fi
+    done
+}
+
+ask_app_debug()
+{
+    variable='APP_DEBUG'
+
+    question='Should the application run in debug mode?'
+    default_value="$(grep "^$variable" < "$env_file" | cut -d '=' -f 2-)"
+
+    if [ "$default_value" -eq 1 ] ; then
+        question_full="$question [Y/n]: "
+    else
+        question_full="$question [y/N]: "
+    fi
+
+    printf '%s' "$question_full"
+    read -r answer
+
+    if [ "$answer" = '' ] ; then
+        answer="$default_value"
+    fi
+
+    case "$answer" in
+        y|Y)
+            app_debug=1
+            return
+            ;;
+        n|N)
+            app_debug=0
+            return
+            ;;
+        *)
+            app_debug="$default_value"
+            return
+            ;;
+    esac
+}
+
+ask_enable_xdebug()
+{
+    variable='ENABLE_XDEBUG'
+
+    question='Enable xdebug?'
+    default_value="$(grep "^$variable" < "$env_file" | cut -d '=' -f 2-)"
+
+    if [ "$default_value" -eq 1 ] ; then
+        question_full="$question [Y/n]: "
+    else
+        question_full="$question [y/N]: "
+    fi
+
+    printf '%s' "$question_full"
+    read -r answer
+
+    if [ "$answer" = '' ] ; then
+        answer="$default_value"
+    fi
+
+    case "$answer" in
+        y|Y)
+            enable_xdebug=1
+            return
+            ;;
+        n|N)
+            enable_xdebug=0
+            return
+            ;;
+        *)
+            enable_xdebug="$default_value"
+            return
+            ;;
+    esac
+}
+
+finalize_compose_files()
+{
+    line="$(config | grep "^$app_env+xdebug-$enable_xdebug=")"
+    compose_files=''
+    old_ifs="$IFS"
+    IFS=':'
+    for part in $(echo "$line" | cut -d '=' -f 2) ; do
+        if [ -z "$compose_files" ] ; then
+            compose_files="docker/config/$part.yml"
+        else
+            compose_files="$compose_files:docker/config/$part.yml"
+        fi
+    done
+    IFS="$old_ifs"
+}
+
+finalize_vars()
+{
+    env_variables="$(printf '%s\n%s\n%s' "APP_ENV=$app_env" "APP_DEBUG=$app_debug" "ENABLE_XDEBUG=$enable_xdebug")"
+    compose_final="COMPOSE_FILE=$compose_files"
+}
+
+merge()
+{
+    old_ifs="$IFS"
+    IFS='
+'
+    for line in $env ; do
+        if [ "$line" = '' ] || echo "$line" | grep -q '^#' ; then
+            continue
+        fi
+        if [ "$merged_config" = '' ] ; then
+            merged_config="$line"
+        else
+            merged_config="$(printf '%s\n%s' "$merged_config" "$line")"
+        fi
+    done
+    for line in $env_local ; do
+        if [ "$line" = '' ] || echo "$line" | grep -q '^#' ; then
+            continue
+        fi
+        if echo "$line" | grep -q '^COMPOSE_FILE' ; then
+            continue
+        fi
+        if [ "$merged_config" = '' ] ; then
+            merged_config="$line"
+        else
+            merged_config="$(printf '%s\n%s' "$merged_config" "$line")"
+        fi
+    done
+    IFS="$old_ifs"
+}
+
+override()
+{
+    old_ifs="$IFS"
+    IFS='
+'
+    for line in $merged_config ; do
+        var_name="$(echo "$line" | cut -d '=' -f 1)"
+        line_num="$(echo "$env_variables" | grep -n "^$var_name=" | cut -d ':' -f 1)"
+        if echo "$overridden_config" | grep -q "^$var_name=" ; then
+            continue
+        fi
+        if [ "$line_num" != '' ] ; then
+            c="$(echo "$env_variables" | sed -n "$line_num p")"
+        else
+            c="$line"
+        fi
+        if [ "$overridden_config" = '' ] ; then
+            overridden_config="$c"
+        else
+            overridden_config="$(printf '%s\n%s' "$overridden_config" "$c")"
+        fi
+    done
+    IFS="$old_ifs"
+}
+
+reduce()
+{
+    old_ifs="$IFS"
+    IFS='
+'
+    for line in $overridden_config ; do
+        if echo "$env" | grep -q "$line" ; then
+            continue
+        fi
+        if [ "$reduced_config" = '' ] ; then
+            reduced_config="$line"
+        else
+            reduced_config="$(printf '%s\n%s' "$reduced_config" "$line")"
+        fi
+    done
+    IFS="$old_ifs"
+}
+
+ask_questions()
+{
+    questions='ask_app_env ask_app_debug ask_enable_xdebug'
+    spaces="$(echo "$questions" | grep -o ' ' | wc -l)"
+    cycles="$((spaces + 1))"
+    cycle=0
+    for q in $questions ; do
+        cycle="$((cycle + 1))"
+        eval "$q"
+        if [ "$cycle" -lt "$cycles" ] ; then
+            echo
+        fi
+    done
+}
+
+compile_configuration()
+{
+    finalize_compose_files
+    finalize_vars
+
+    merge
+    override
+    reduce
+
+    if [ "$reduced_config" = '' ] ; then
+        config="$compose_final"
+    else
+        config="$(printf '%s\n%s' "$reduced_config" "$compose_final")"
+    fi
+
+    printf '%s\n' "$config" > "$env_local_file"
+}
+
+ask_questions
+compile_configuration

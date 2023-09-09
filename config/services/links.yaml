@@ -1,0 +1,13 @@
+services:
+
+    App\Links\AccountActivationLink:
+        arguments:
+            - '@App\Links\PatternBasedLinkGenerator'
+            - '%account_activation_link_pattern%'
+
+    App\Links\ForgottenPasswordLink:
+        arguments:
+            - '@App\Links\PatternBasedLinkGenerator'
+            - '%forgotten_password_link_pattern%'
+
+    App\Links\PatternBasedLinkGenerator: ~

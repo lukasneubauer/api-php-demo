@@ -1,0 +1,5 @@
+imports:
+    - { resource: config_dev.yaml }
+
+parameters:
+    perform_request_validation: false

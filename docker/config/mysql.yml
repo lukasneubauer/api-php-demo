@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+
+    mysql:
+        build:
+            context: ../..
+            dockerfile: docker/images/mysql/Dockerfile
+        container_name: api-mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}"
+            MYSQL_DATABASE: "${DATABASE_NAME}"

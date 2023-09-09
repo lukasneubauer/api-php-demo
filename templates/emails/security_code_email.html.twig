@@ -1,0 +1,11 @@
+{% include 'emails/include/html_open.html.twig' %}
+
+{% include 'emails/include/hello.html.twig' %}
+
+<p>zde je Váš bezpečnostní kód</p>
+
+<p>{{ security_code }}</p>
+
+{% include 'emails/include/best_regards.html.twig' %}
+
+{% include 'emails/include/html_close.html.twig' %}

@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "dredd": "^14.1.0",
+    "jsdom": "^22.1.0"
+  }
+}

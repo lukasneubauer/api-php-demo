@@ -1,0 +1,3 @@
+account_activation_email_subject: 'Registrace'
+forgotten_password_email_subject: 'Vyžádání nového hesla'
+security_code_email_subject: 'Bezpečnostní kód'

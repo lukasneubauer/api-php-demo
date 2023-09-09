@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+
+    adminer:
+        image: adminer:4.7
+        container_name: api-adminer
+        links:
+            - mysql:db
+        ports:
+            - 8888:8080

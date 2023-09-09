@@ -1,0 +1,7 @@
+version: '3'
+
+#services:
+
+#    mysql:
+#        volumes:
+#            - data:/var/lib/mysql

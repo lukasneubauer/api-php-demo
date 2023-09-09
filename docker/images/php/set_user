@@ -1,0 +1,19 @@
+#!/bin/sh
+
+uid="$1"
+gid="$2"
+
+name='www-data'
+home="/home/$name"
+
+if [ "$uid" != '' ] && [ "$gid" != '' ] ; then
+    if getent passwd "$name" > /dev/null ; then
+        deluser --remove-home "$name"
+    fi
+    if getent group "$name" > /dev/null ; then
+        delgroup "$name"
+    fi
+    addgroup -g "$gid" "$name"
+    adduser -h "$home" -u "$uid" -G "$name" -D "$name" -g ''
+    install -d -m 0755 -o "$name" -g "$name" "$home"
+fi

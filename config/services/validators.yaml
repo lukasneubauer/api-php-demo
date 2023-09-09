@@ -1,0 +1,746 @@
+services:
+
+    _defaults:
+        autowire: true
+        autoconfigure: false
+        public: false
+
+    # Error 1
+
+    app.validators.missing_mandatory_api_client_id_http_header:
+        class: App\Validators\MissingMandatoryHttpHeader
+        arguments:
+            - 'Api-Client-Id'
+    app.validators.missing_mandatory_api_key_http_header:
+        class: App\Validators\MissingMandatoryHttpHeader
+        arguments:
+            - 'Api-Key'
+    app.validators.missing_mandatory_api_token_http_header:
+        class: App\Validators\MissingMandatoryHttpHeader
+        arguments:
+            - 'Api-Token'
+
+    # Error 2
+
+    app.validators.missing_value_for_api_client_id_http_header:
+        class: App\Validators\MissingValueForHttpHeader
+        arguments:
+            - 'Api-Client-Id'
+    app.validators.missing_value_for_api_key_http_header:
+        class: App\Validators\MissingValueForHttpHeader
+        arguments:
+            - 'Api-Key'
+    app.validators.missing_value_for_api_token_http_header:
+        class: App\Validators\MissingValueForHttpHeader
+        arguments:
+            - 'Api-Token'
+
+    # Error 3
+
+    app.validators.invalid_value_for_api_client_id_http_header:
+        class: App\Validators\InvalidValueForApiClientIdHttpHeader
+    app.validators.invalid_value_for_api_key_http_header:
+        class: App\Validators\InvalidValueForApiKeyHttpHeader
+    app.validators.invalid_value_for_api_token_http_header:
+        class: App\Validators\InvalidValueForApiTokenHttpHeader
+
+    # Error 4
+
+    app.validators.check_if_http_method_is_get:
+        class: App\Validators\UsageOfIncorrectHttpMethod
+        arguments:
+            - 'GET'
+    app.validators.check_if_http_method_is_post:
+        class: App\Validators\UsageOfIncorrectHttpMethod
+        arguments:
+            - 'POST'
+    app.validators.check_if_http_method_is_delete:
+        class: App\Validators\UsageOfIncorrectHttpMethod
+        arguments:
+            - 'DELETE'
+    app.validators.check_if_http_method_is_patch:
+        class: App\Validators\UsageOfIncorrectHttpMethod
+        arguments:
+            - 'PATCH'
+
+    # Error 5
+
+    app.validators.missing_mandatory_id_url_parameter:
+        class: App\Validators\MissingMandatoryUrlParameter
+        arguments:
+            - 'id'
+    app.validators.missing_mandatory_email_url_parameter:
+        class: App\Validators\MissingMandatoryUrlParameter
+        arguments:
+            - 'email'
+    app.validators.missing_mandatory_token_url_parameter:
+        class: App\Validators\MissingMandatoryUrlParameter
+        arguments:
+            - 'token'
+
+    # Error 6
+
+    app.validators.missing_value_for_id_url_parameter:
+        class: App\Validators\MissingValueForUrlParameter
+        arguments:
+            - 'id'
+    app.validators.missing_value_for_email_url_parameter:
+        class: App\Validators\MissingValueForUrlParameter
+        arguments:
+            - 'email'
+    app.validators.missing_value_for_token_url_parameter:
+        class: App\Validators\MissingValueForUrlParameter
+        arguments:
+            - 'token'
+
+    # Error 7
+
+    app.validators.no_data_found_for_course_id_url_parameter:
+        class: App\Validators\NoDataFoundForCourseIdUrlParameter
+    app.validators.no_data_found_for_lesson_id_url_parameter:
+        class: App\Validators\NoDataFoundForLessonIdUrlParameter
+    app.validators.no_data_found_for_email_url_parameter:
+        class: App\Validators\NoDataFoundForEmailUrlParameter
+    app.validators.no_data_found_for_token_url_parameter:
+        class: App\Validators\NoDataFoundForTokenUrlParameter
+    app.validators.user_not_found_by_email_credentials_in_url_parameters:
+        class: App\Validators\UserNotFoundByEmailCredentialsInUrlParameters
+
+    # Error 8
+
+    app.validators.missing_json_in_request_body:
+        class: App\Validators\MissingJsonInRequestBody
+
+    # Error 9
+
+    app.validators.malformed_json_in_request_body:
+        class: App\Validators\MalformedJsonInRequestBody
+
+    # Error 10
+
+    app.validators.missing_mandatory_property_id_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'id'
+    app.validators.missing_mandatory_property_course_id_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'courseId'
+    app.validators.missing_mandatory_property_teacher_id_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'teacherId'
+    app.validators.missing_mandatory_property_user_id_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'userId'
+    app.validators.missing_mandatory_property_first_name_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'firstName'
+    app.validators.missing_mandatory_property_last_name_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'lastName'
+    app.validators.missing_mandatory_property_avatar_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'avatar'
+    app.validators.missing_mandatory_property_email_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'email'
+    app.validators.missing_mandatory_property_password_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'password'
+    app.validators.missing_mandatory_property_is_teacher_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'isTeacher'
+    app.validators.missing_mandatory_property_is_student_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'isStudent'
+    app.validators.missing_mandatory_property_timezone_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'timezone'
+    app.validators.missing_mandatory_property_token_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'token'
+    app.validators.missing_mandatory_property_name_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'name'
+    app.validators.missing_mandatory_property_subject_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'subject'
+    app.validators.missing_mandatory_property_from_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'from'
+    app.validators.missing_mandatory_property_to_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'to'
+    app.validators.missing_mandatory_property_old_api_client_id_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'oldApiClientId'
+    app.validators.missing_mandatory_property_security_code_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'securityCode'
+    app.validators.missing_mandatory_property_is_active_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'isActive'
+    app.validators.missing_mandatory_property_price_in_request_body:
+        class: App\Validators\MissingMandatoryPropertyInRequestBody
+        arguments:
+            - 'price'
+
+    # Error 11
+
+    app.validators.expected_different_data_type_for_property_id_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForPropertyInRequestBody
+        arguments:
+            - 'string'
+            - 'id'
+    app.validators.expected_different_data_type_for_property_course_id_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForPropertyInRequestBody
+        arguments:
+            - 'string'
+            - 'courseId'
+    app.validators.expected_different_data_type_for_property_teacher_id_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForPropertyInRequestBody
+        arguments:
+            - 'string'
+            - 'teacherId'
+    app.validators.expected_different_data_type_for_property_user_id_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForPropertyInRequestBody
+        arguments:
+            - 'string'
+            - 'userId'
+    app.validators.expected_different_data_type_for_property_first_name_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForPropertyInRequestBody
+        arguments:
+            - 'string'
+            - 'firstName'
+    app.validators.expected_different_data_type_for_property_last_name_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForPropertyInRequestBody
+        arguments:
+            - 'string'
+            - 'lastName'
+    app.validators.expected_different_data_type_for_property_avatar_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForPropertyInRequestBody
+        arguments:
+            - 'string'
+            - 'avatar'
+    app.validators.expected_different_data_type_for_nullable_property_avatar_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForNullablePropertyInRequestBody
+        arguments:
+            - 'string'
+            - 'avatar'
+    app.validators.expected_different_data_type_for_property_email_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForPropertyInRequestBody
+        arguments:
+            - 'string'
+            - 'email'
+    app.validators.expected_different_data_type_for_property_password_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForPropertyInRequestBody
+        arguments:
+            - 'string'
+            - 'password'
+    app.validators.expected_different_data_type_for_nullable_property_password_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForNullablePropertyInRequestBody
+        arguments:
+            - 'string'
+            - 'password'
+    app.validators.expected_different_data_type_for_property_is_teacher_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForPropertyInRequestBody
+        arguments:
+            - 'boolean'
+            - 'isTeacher'
+    app.validators.expected_different_data_type_for_property_is_student_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForPropertyInRequestBody
+        arguments:
+            - 'boolean'
+            - 'isStudent'
+    app.validators.expected_different_data_type_for_property_timezone_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForPropertyInRequestBody
+        arguments:
+            - 'string'
+            - 'timezone'
+    app.validators.expected_different_data_type_for_property_token_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForPropertyInRequestBody
+        arguments:
+            - 'string'
+            - 'token'
+    app.validators.expected_different_data_type_for_property_name_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForPropertyInRequestBody
+        arguments:
+            - 'string'
+            - 'name'
+    app.validators.expected_different_data_type_for_property_subject_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForPropertyInRequestBody
+        arguments:
+            - 'string'
+            - 'subject'
+    app.validators.expected_different_data_type_for_property_from_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForPropertyInRequestBody
+        arguments:
+            - 'string'
+            - 'from'
+    app.validators.expected_different_data_type_for_property_to_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForPropertyInRequestBody
+        arguments:
+            - 'string'
+            - 'to'
+    app.validators.expected_different_data_type_for_property_old_api_client_id_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForPropertyInRequestBody
+        arguments:
+            - 'string'
+            - 'oldApiClientId'
+    app.validators.expected_different_data_type_for_property_security_code_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForPropertyInRequestBody
+        arguments:
+            - 'string'
+            - 'securityCode'
+    app.validators.expected_different_data_type_for_property_is_active_in_request_body:
+        class: App\Validators\ExpectedDifferentDataTypeForPropertyInRequestBody
+        arguments:
+            - 'boolean'
+            - 'isActive'
+    app.validators.expected_number_for_property_price_in_request_body:
+        class: App\Validators\ExpectedNumberForPropertyPriceInRequestBody
+    app.validators.expected_number_or_null_for_property_price_in_request_body:
+        class: App\Validators\ExpectedNumberOrNullForPropertyPriceInRequestBody
+
+    # Error 12
+
+    app.validators.expected_non_empty_string_in_id_in_request_body:
+        class: App\Validators\ExpectedNonEmptyStringInRequestBody
+        arguments:
+            - 'id'
+    app.validators.expected_non_empty_string_in_course_id_in_request_body:
+        class: App\Validators\ExpectedNonEmptyStringInRequestBody
+        arguments:
+            - 'courseId'
+    app.validators.expected_non_empty_string_in_teacher_id_in_request_body:
+        class: App\Validators\ExpectedNonEmptyStringInRequestBody
+        arguments:
+            - 'teacherId'
+    app.validators.expected_non_empty_string_in_user_id_in_request_body:
+        class: App\Validators\ExpectedNonEmptyStringInRequestBody
+        arguments:
+            - 'userId'
+    app.validators.expected_non_empty_string_in_first_name_in_request_body:
+        class: App\Validators\ExpectedNonEmptyStringInRequestBody
+        arguments:
+            - 'firstName'
+    app.validators.expected_non_empty_string_in_last_name_in_request_body:
+        class: App\Validators\ExpectedNonEmptyStringInRequestBody
+        arguments:
+            - 'lastName'
+    app.validators.expected_non_empty_string_in_avatar_in_request_body:
+        class: App\Validators\ExpectedNonEmptyStringInRequestBody
+        arguments:
+            - 'avatar'
+    app.validators.expected_non_empty_string_or_null_in_avatar_in_request_body:
+        class: App\Validators\ExpectedNonEmptyStringOrNullInRequestBody
+        arguments:
+            - 'avatar'
+    app.validators.expected_non_empty_string_in_email_in_request_body:
+        class: App\Validators\ExpectedNonEmptyStringInRequestBody
+        arguments:
+            - 'email'
+    app.validators.expected_non_empty_string_in_password_in_request_body:
+        class: App\Validators\ExpectedNonEmptyStringInRequestBody
+        arguments:
+            - 'password'
+    app.validators.expected_non_empty_string_or_null_in_password_in_request_body:
+        class: App\Validators\ExpectedNonEmptyStringOrNullInRequestBody
+        arguments:
+            - 'password'
+    app.validators.expected_non_empty_string_in_timezone_in_request_body:
+        class: App\Validators\ExpectedNonEmptyStringInRequestBody
+        arguments:
+            - 'timezone'
+    app.validators.expected_non_empty_string_in_token_in_request_body:
+        class: App\Validators\ExpectedNonEmptyStringInRequestBody
+        arguments:
+            - 'token'
+    app.validators.expected_non_empty_string_in_name_in_request_body:
+        class: App\Validators\ExpectedNonEmptyStringInRequestBody
+        arguments:
+            - 'name'
+    app.validators.expected_non_empty_string_in_subject_in_request_body:
+        class: App\Validators\ExpectedNonEmptyStringInRequestBody
+        arguments:
+            - 'subject'
+    app.validators.expected_non_empty_string_in_from_in_request_body:
+        class: App\Validators\ExpectedNonEmptyStringInRequestBody
+        arguments:
+            - 'from'
+    app.validators.expected_non_empty_string_in_to_in_request_body:
+        class: App\Validators\ExpectedNonEmptyStringInRequestBody
+        arguments:
+            - 'to'
+    app.validators.expected_non_empty_string_in_old_api_client_id_in_request_body:
+        class: App\Validators\ExpectedNonEmptyStringInRequestBody
+        arguments:
+            - 'oldApiClientId'
+    app.validators.expected_non_empty_string_in_security_code_in_request_body:
+        class: App\Validators\ExpectedNonEmptyStringInRequestBody
+        arguments:
+            - 'securityCode'
+
+    # Error 13
+
+    app.validators.no_data_found_in_courses_for_property_course_id_in_request_body:
+        class: App\Validators\NoDataFoundInCoursesForPropertyCourseIdInRequestBody
+    app.validators.no_data_found_in_users_for_property_user_id_in_request_body:
+        class: App\Validators\NoDataFoundInUsersForPropertyUserIdInRequestBody
+    app.validators.no_data_found_for_property_course_id_in_request_body:
+        class: App\Validators\NoDataFoundForPropertyCourseIdInRequestBody
+    app.validators.no_data_found_for_property_lesson_id_in_request_body:
+        class: App\Validators\NoDataFoundForPropertyLessonIdInRequestBody
+    app.validators.no_data_found_for_property_teacher_id_in_request_body:
+        class: App\Validators\NoDataFoundForPropertyTeacherIdInRequestBody
+    app.validators.no_data_found_for_property_email_in_request_body:
+        class: App\Validators\NoDataFoundForPropertyEmailInRequestBody
+    app.validators.no_data_found_for_property_user_id_in_request_body:
+        class: App\Validators\NoDataFoundForPropertyUserIdInRequestBody
+    app.validators.user_not_found_by_credentials:
+        class: App\Validators\UserNotFoundByCredentials
+    app.validators.user_not_found_by_email_credentials:
+        class: App\Validators\UserNotFoundByEmailCredentials
+
+    # Error 14 is in persister errors
+
+    # Error 15
+
+    app.validators.numeric_value_in_price_must_be_greater_than_zero_in_request_body:
+        class: App\Validators\NumericValueMustBeGreaterInRequestBody
+        arguments:
+            - 'price'
+            - 0
+    app.validators.numeric_value_in_price_must_be_greater_than_zero_or_null_in_request_body:
+        class: App\Validators\NumericValueMustBeGreaterOrNullInRequestBody
+        arguments:
+            - 'price'
+            - 0
+
+    # Error 16
+
+    app.validators.malformed_email_in_url_parameter:
+        class: App\Validators\MalformedEmailInUrlParameter
+    app.validators.malformed_email_in_request_body:
+        class: App\Validators\MalformedEmailInRequestBody
+
+    # Error 17
+
+    app.validators.malformed_date_time_in_property_from_in_request_body:
+        class: App\Validators\MalformedDateTimeInRequestBody
+        arguments:
+            - 'from'
+    app.validators.malformed_date_time_in_property_to_in_request_body:
+        class: App\Validators\MalformedDateTimeInRequestBody
+        arguments:
+            - 'to'
+
+    # Error 18
+
+    app.validators.token_expired:
+        class: App\Validators\TokenExpired
+    app.validators.token_in_url_parameter_expired:
+        class: App\Validators\TokenInUrlParameterExpired
+
+    # Error 19
+
+    app.validators.malformed_uuid_for_property_id_in_request_body:
+        class: App\Validators\MalformedUuidInRequestBody
+        arguments:
+            $property: 'id'
+    app.validators.malformed_uuid_for_property_course_id_in_request_body:
+        class: App\Validators\MalformedUuidInRequestBody
+        arguments:
+            $property: 'courseId'
+    app.validators.malformed_uuid_for_property_teacher_id_in_request_body:
+        class: App\Validators\MalformedUuidInRequestBody
+        arguments:
+            $property: 'teacherId'
+    app.validators.malformed_uuid_in_id_url_parameter:
+        class: App\Validators\MalformedUuidInUrlParameter
+        arguments:
+            $urlParameter: 'id'
+
+    # Error 20
+
+    app.validators.given_date_time_does_not_make_any_sense_in_property_from_in_request_body:
+        class: App\Validators\GivenDateTimeDoesNotMakeAnySenseInRequestBody
+        arguments:
+            - 'from'
+    app.validators.given_date_time_does_not_make_any_sense_in_property_to_in_request_body:
+        class: App\Validators\GivenDateTimeDoesNotMakeAnySenseInRequestBody
+        arguments:
+            - 'to'
+
+    # Error 21
+
+    app.validators.date_time_in_from_cannot_be_greater_or_equal_to_date_time_in_to:
+        class: App\Validators\DateTimeInOneCannotBeGreaterOrEqualToDateTimeInTwo
+        arguments:
+            $propertyOne: 'from'
+            $propertyTwo: 'to'
+
+    # Error 22
+
+    app.validators.selected_user_is_not_teacher:
+        class: App\Validators\SelectedUserIsNotTeacher
+
+    # Error 23
+
+    app.validators.user_is_not_teacher_so_price_must_not_be_set:
+        class: App\Validators\UserIsNotTeacherSoPriceMustNotBeSet
+
+    # Error 24
+
+    app.validators.user_is_teacher_so_price_must_be_set:
+        class: App\Validators\UserIsTeacherSoPriceMustBeSet
+
+    # Error 25 is not implemented
+
+    # Error 26
+
+    app.validators.cannot_subscribe_to_inactive_course:
+        class: App\Validators\CannotSubscribeToInactiveCourse
+
+    # Error 27
+
+    app.validators.cannot_subscribe_to_ongoing_or_ended_course:
+        class: App\Validators\CannotSubscribeToOngoingOrEndedCourse
+
+    # Error 28
+
+    app.validators.cannot_unsubscribe_from_ongoing_or_ended_course:
+        class: App\Validators\CannotUnsubscribeFromOngoingOrEndedCourse
+
+    # Error 29
+
+    app.validators.to_accept_this_request_the_user_has_to_be_teacher:
+        class: App\Validators\ToAcceptThisRequestTheUserHasToBeTeacher
+
+    # Error 30
+
+    app.validators.to_delete_the_lesson_the_user_has_to_be_teacher:
+        class: App\Validators\ToDeleteTheLessonTheUserHasToBeTeacher
+
+    # Error 31
+
+    app.validators.to_delete_the_course_the_user_has_to_be_teacher:
+        class: App\Validators\ToDeleteTheCourseTheUserHasToBeTeacher
+
+    # Error 32
+
+    app.validators.cannot_delete_lesson_from_ongoing_or_ended_course:
+        class: App\Validators\CannotDeleteLessonFromOngoingOrEndedCourse
+
+    # Error 33
+
+    app.validators.cannot_delete_ongoing_or_ended_course:
+        class: App\Validators\CannotDeleteOngoingOrEndedCourse
+
+    # Error 34
+
+    app.validators.attempt_to_log_into_an_unconfirmed_user_account:
+        class: App\Validators\AttemptToLogIntoAnUnconfirmedUserAccount
+
+    # Error 35
+
+    app.validators.cannot_delete_teacher_with_ongoing_courses:
+        class: App\Validators\CannotDeleteTeacherWithOngoingCourses
+
+    # Error 36
+
+    app.validators.cannot_delete_student_which_is_subscribed_to_ongoing_courses:
+        class: App\Validators\CannotDeleteStudentWhichIsSubscribedToOngoingCourses
+
+    # Error 37 is in persister errors
+
+    # Error 38
+
+    app.validators.session_found_by_api_token_but_its_client_id_does_not_match:
+        class: App\Validators\SessionFoundByApiTokenButItsClientIdDoesNotMatch
+
+    # Error 39
+
+    app.validators.session_is_locked:
+        class: App\Validators\SessionIsLocked
+
+    # Error 40
+
+    app.validators.incorrect_password_has_been_entered:
+        class: App\Validators\IncorrectPasswordHasBeenEntered
+
+    # Error 41
+
+    app.validators.account_has_been_locked:
+        class: App\Validators\AccountHasBeenLocked
+
+    # Error 42
+
+    app.validators.security_code_has_been_generated:
+        class: App\Validators\SecurityCodeHasBeenGenerated
+
+    # Error 43
+
+    app.validators.incorrect_security_code_has_been_entered:
+        class: App\Validators\IncorrectSecurityCodeHasBeenEntered
+
+    # Error 44
+
+    app.validators.security_code_has_been_generated_again:
+        class: App\Validators\SecurityCodeHasBeenGeneratedAgain
+
+    # Error 45
+
+    app.validators.security_code_has_expired:
+        class: App\Validators\SecurityCodeHasExpired
+
+    # Error 46
+
+    app.validators.user_is_trying_to_use_another_email_address:
+        class: App\Validators\UserIsTryingToUseAnotherEmailAddress
+
+    # Error 47
+
+    app.validators.old_api_client_id_is_different_than_the_one_in_current_session:
+        class: App\Validators\OldApiClientIdIsDifferentThanTheOneInCurrentSession
+
+    # Error 48
+
+    app.validators.user_does_not_have_any_security_code:
+        class: App\Validators\UserDoesNotHaveAnySecurityCode
+
+    # Error 49
+
+    app.validators.cannot_subscribe_to_your_own_course:
+        class: App\Validators\CannotSubscribeToYourOwnCourse
+
+    # Error 50
+
+    app.validators.cannot_unsubscribe_from_course_to_which_you_are_not_subscribed_to:
+        class: App\Validators\CannotUnsubscribeFromCourseToWhichYouAreNotSubscribedTo
+
+    # Error 51
+
+    app.validators.to_update_the_lesson_the_user_has_to_be_teacher:
+        class: App\Validators\ToUpdateTheLessonTheUserHasToBeTeacher
+
+    # Error 52
+
+    app.validators.to_update_the_course_the_user_has_to_be_teacher:
+        class: App\Validators\ToUpdateTheCourseTheUserHasToBeTeacher
+
+    # Error 53
+
+    app.validators.cannot_update_lesson_from_ongoing_or_ended_course:
+        class: App\Validators\CannotUpdateLessonFromOngoingOrEndedCourse
+
+    # Error 54
+
+    app.validators.cannot_update_ongoing_or_ended_course:
+        class: App\Validators\CannotUpdateOngoingOrEndedCourse
+
+    # Error 55
+
+    app.validators.string_length_must_not_be_longer_for_property_first_name_in_request_body:
+        class: App\Validators\StringLengthMustNotBeLonger
+        arguments:
+            - 'firstName'
+            - 255
+    app.validators.string_length_must_not_be_longer_for_property_last_name_in_request_body:
+        class: App\Validators\StringLengthMustNotBeLonger
+        arguments:
+            - 'lastName'
+            - 255
+    app.validators.string_length_must_not_be_longer_for_property_email_in_request_body:
+        class: App\Validators\StringLengthMustNotBeLonger
+        arguments:
+            - 'email'
+            - 255
+    app.validators.string_length_must_not_be_longer_for_property_name_in_request_body:
+        class: App\Validators\StringLengthMustNotBeLonger
+        arguments:
+            - 'name'
+            - 255
+    app.validators.string_length_must_not_be_longer_for_property_subject_in_request_body:
+        class: App\Validators\StringLengthMustNotBeLonger
+        arguments:
+            - 'subject'
+            - 255
+
+    # Error 56
+
+    app.validators.number_size_must_not_be_higher_for_property_price_in_request_body:
+        class: App\Validators\NumberSizeMustNotBeHigher
+        arguments:
+            - 'price'
+            - 4294967295
+
+    # Error 57
+
+    app.validators.selected_timezone_is_invalid:
+        class: App\Validators\SelectedTimezoneIsInvalid
+
+    # Error 58
+
+    app.validators.cannot_send_payment_for_the_course_to_which_you_are_not_subscribed_to:
+        class: App\Validators\CannotSendPaymentForTheCourseToWhichYouAreNotSubscribedTo
+
+    # Error 59
+
+    app.validators.cannot_send_payment_for_the_same_course_again:
+        class: App\Validators\CannotSendPaymentForTheSameCourseAgain
+
+    # Error 60
+
+    app.validators.cannot_send_payment_for_the_ongoing_or_ended_course:
+        class: App\Validators\CannotSendPaymentForTheOngoingOrEndedCourse
+
+    # Error 61
+
+    app.validators.cannot_request_refund_for_the_course_to_which_you_are_not_subscribed_to:
+        class: App\Validators\CannotRequestRefundForTheCourseToWhichYouAreNotSubscribedTo
+
+    # Error 62
+
+    app.validators.cannot_request_refund_for_the_payment_which_you_did_not_make:
+        class: App\Validators\CannotRequestRefundForThePaymentWhichYouDidNotMake
+
+    # Error 63
+
+    app.validators.cannot_request_refund_for_the_payment_which_already_has_opened_refund_request:
+        class: App\Validators\CannotRequestRefundForThePaymentWhichAlreadyHasOpenedRefundRequest
+
+    # Error 64
+
+    app.validators.cannot_request_refund_for_the_payment_which_already_has_closed_refund_request:
+        class: App\Validators\CannotRequestRefundForThePaymentWhichAlreadyHasClosedRefundRequest
+
+    # Error 65
+
+    app.validators.trying_to_get_lesson_list_for_course_which_is_not_yours:
+        class: App\Validators\TryingToGetLessonListForCourseWhichIsNotYours
+
+    # Error 66
+
+    app.validators.trying_to_upload_avatar_image_of_unsupported_type:
+        class: App\Validators\TryingToUploadAvatarImageOfUnsupportedType
+    app.validators.trying_to_upload_avatar_image_of_unsupported_type_if_not_null:
+        class: App\Validators\TryingToUploadAvatarImageOfUnsupportedTypeIfNotNull

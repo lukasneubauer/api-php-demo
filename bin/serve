@@ -1,0 +1,23 @@
+#!/bin/sh
+
+cd "$(dirname "$(command -v "$0")")" || exit 1
+
+root_dir="$(realpath "$PWD/..")"
+
+cd "$root_dir" || exit 1
+
+random_port()
+{
+    port=8080
+    while true ; do
+        nc -z 127.0.0.1 "$port"
+        if [ "$?" -eq 0 ] ; then
+            port="$((port + 1))"
+            continue
+        fi
+        break
+    done
+    echo "$port"
+}
+
+php -S "127.0.0.1:$(random_port)" -t public

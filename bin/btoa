@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if [ "$*" != '' ] ; then
+    base64 -w 0 "$*"
+else
+    printf '%s' "$(cat -)" | base64 -w 0
+fi

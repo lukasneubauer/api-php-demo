@@ -1,0 +1,6 @@
+imports:
+    - { resource: config_prod.yaml }
+
+framework:
+    mailer:
+        dsn: 'null://null'

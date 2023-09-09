@@ -1,0 +1,41 @@
+services:
+
+    App\Emails\MessageFactory: ~
+
+    App\Emails\AccountActivationEmail:
+        arguments:
+            - '@mailer'
+            - '@App\Emails\MessageFactory'
+            - '@translator.default'
+            - '@twig'
+            - '%locale%'
+            - '%emails_dir%/account_activation_email.html.twig'
+            - '%no_reply_email%'
+            - 'account_activation_email_subject'
+            - '%base_uri%'
+            - '%host%'
+            - '%project_name%'
+
+    App\Emails\ForgottenPasswordEmail:
+        arguments:
+            - '@mailer'
+            - '@App\Emails\MessageFactory'
+            - '@translator.default'
+            - '@twig'
+            - '%locale%'
+            - '%emails_dir%/forgotten_password_email.html.twig'
+            - '%no_reply_email%'
+            - 'forgotten_password_email_subject'
+            - '%project_name%'
+
+    App\Emails\SecurityCodeEmail:
+        arguments:
+            - '@mailer'
+            - '@App\Emails\MessageFactory'
+            - '@translator.default'
+            - '@twig'
+            - '%locale%'
+            - '%emails_dir%/security_code_email.html.twig'
+            - '%no_reply_email%'
+            - 'security_code_email_subject'
+            - '%project_name%'

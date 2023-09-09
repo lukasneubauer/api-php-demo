@@ -1,0 +1,140 @@
+#!/bin/sh
+
+cd "$(dirname "$(command -v "$0")")" || exit 1
+
+root_dir="$(realpath "$PWD/..")"
+
+cd "$root_dir" || exit 1
+
+escape_slashes_using_sed()
+{
+    printf "%s" "$1" | sed 's/\//\\\//g'
+}
+
+escape_slashes()
+{
+    escape_slashes_using_sed "$(cat -)"
+}
+
+escape_backslashes_using_sed()
+{
+    printf "%s" "$1" | sed 's/\\/\\\\/g'
+}
+
+escape_backslashes()
+{
+    escape_backslashes_using_sed "$(cat -)"
+}
+
+escape()
+{
+    printf "%s" "$(cat -)" | escape_backslashes | escape_slashes
+}
+
+unescape_slashes_using_sed()
+{
+    printf "%s" "$1" | sed 's/\\\//\//g'
+}
+
+unescape_slashes()
+{
+    unescape_slashes_using_sed "$(cat -)"
+}
+
+unescape_backslashes_using_sed()
+{
+    printf "%s" "$1" | sed 's/\\\\/\\/g'
+}
+
+unescape_backslashes()
+{
+    unescape_backslashes_using_sed "$(cat -)"
+}
+
+unescape()
+{
+    printf "%s" "$(cat -)" | unescape_backslashes | unescape_slashes
+}
+
+update_line()
+{
+    lines="$1"
+    declaration="$2"
+    value="$3"
+    line_to_update="$(printf "%s" "$lines" | grep "^$declaration=" | escape)"
+    line_number="$(printf "%s" "$lines" | grep -n "^$declaration=" | cut -d ':' -f 1)"
+    printf "%s" "$lines" | sed "$line_number s/^$line_to_update$/$declaration=$value/" | unescape
+}
+
+append_line()
+{
+    lines="$1"
+    declaration="$2"
+    value="$3"
+    if [ "$lines" = '' ] ; then
+        lines="$declaration=$value"
+    else
+        lines="$(printf "%s\n%s" "$lines" "$declaration=$value")"
+    fi
+    printf "%s" "$lines"
+}
+
+compile()
+{
+    lines="$1"
+    result=''
+    old_ifs="$IFS"
+    IFS='
+'
+    for line in $lines ; do
+        declaration="$(printf "%s" "$line" | cut -d '=' -f 1)"
+        value="$(printf "%s" "$line" | cut -d '=' -f 2- | escape)"
+        if printf "%s" "$result" | grep -q "^$declaration=" ; then
+            result="$(update_line "$result" "$declaration" "$value")"
+        else
+            result="$(append_line "$result" "$declaration" "$value")"
+        fi
+    done
+    IFS="$old_ifs"
+    printf "%s" "$result"
+}
+
+show_vars()
+{
+    file="$1"
+    if ! [ -f "$file" ] ; then
+        return
+    fi
+    while read -r line ; do
+        if test "$line" = '' || printf "%s" "$line" | grep -q '^#' ; then
+            continue
+        fi
+        printf "export %s\n" "$line"
+    done < "$file"
+}
+
+join_vars()
+{
+    lines="$*"
+    result=''
+    old_ifs="$IFS"
+    IFS='
+'
+    for line in $lines ; do
+        if [ "$result" = '' ] ; then
+            result="$line"
+        else
+            result="$(printf "%s\n%s" "$result" "$line")"
+        fi
+    done
+    IFS="$old_ifs"
+    printf "%s" "$result"
+}
+
+join_preparation()
+{
+    show_vars .env
+    show_vars .env.local
+}
+
+compile "$(join_vars "$(join_preparation)")"

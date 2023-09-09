@@ -1,0 +1,24 @@
+services:
+
+    _defaults:
+        autowire: true
+        autoconfigure: false
+        public: false
+
+    App\:
+        resource: '%kernel.project_dir%/src/*'
+        exclude: '%kernel.project_dir%/src/{Controllers,Emails,Entities,Errors,Exceptions,Http,Links,Passwords,RequestValidators,Validators,Kernel.php}'
+
+    App\Controllers\:
+        resource: '%kernel.project_dir%/src/Controllers/*'
+        tags: ['controller.service_arguments']
+
+    Doctrine\ORM\EntityManager: '@doctrine.orm.default_entity_manager'
+
+imports:
+    - { resource: services/emails.yaml }
+    - { resource: services/http.yaml }
+    - { resource: services/links.yaml }
+    - { resource: services/passwords.yaml }
+    - { resource: services/request_validators.yaml }
+    - { resource: services/validators.yaml }

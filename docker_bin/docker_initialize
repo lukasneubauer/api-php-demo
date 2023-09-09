@@ -1,0 +1,19 @@
+#!/bin/sh
+
+cd "$(dirname "$(command -v "$0")")" || exit 1
+
+root_dir="$(realpath "$PWD/..")"
+
+cd "$root_dir" || exit 1
+
+eval "$(sh_lib/print_vars)"
+
+sh_lib/check_conf || exit 1
+
+if echo "$APP_ENV" | grep -q '^prod' ; then
+    docker-compose exec php composer install --no-dev --optimize-autoloader --apcu-autoloader
+else
+    docker-compose exec php composer install
+    docker-compose exec php npm ci
+    docker-compose exec php bundle install -j "$(getconf _NPROCESSORS_ONLN)"
+fi

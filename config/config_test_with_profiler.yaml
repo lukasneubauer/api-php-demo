@@ -1,0 +1,6 @@
+imports:
+    - { resource: config_test.yaml }
+
+framework:
+    profiler:
+        collect: true

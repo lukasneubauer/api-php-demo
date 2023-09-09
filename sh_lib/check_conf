@@ -1,0 +1,6 @@
+#!/bin/sh
+
+if [ "$COMPOSE_FILE" = '' ] ; then
+    1>&2 echo "Error: Variable \$COMPOSE_FILE was not found neither in .env.local file nor in your system's \$ENV environment variable. Please, run docker_bin/docker_configure first."
+    exit 1
+fi

@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+    php:
+        build:
+            context: ../..
+            dockerfile: docker/images/php/Dockerfile
+            args:
+                API_KEY: "${API_KEY}"
+                APP_ENV: "${APP_ENV}"
+                APP_DEBUG: "${APP_DEBUG}"
+                APP_SECRET: "${APP_SECRET}"
+                DATABASE_USERNAME: "${DATABASE_USERNAME}"
+                DATABASE_PASSWORD: "${DATABASE_PASSWORD}"
+                DATABASE_HOST: "${DATABASE_HOST}"
+                DATABASE_PORT: "${DATABASE_PORT}"
+                DATABASE_NAME: "${DATABASE_NAME}"
+                MAILER_DSN: "${MAILER_DSN}"
+                WWW_DATA_UID: "${WWW_DATA_UID}"
+                WWW_DATA_GID: "${WWW_DATA_GID}"
+                ENABLE_XDEBUG: "${ENABLE_XDEBUG}"
+        container_name: api-php
+        links:
+            - mysql:db

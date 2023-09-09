@@ -1,0 +1,13 @@
+#!/bin/sh
+
+cd "$(dirname "$(command -v "$0")")" || exit 1
+
+root_dir="$(realpath "$PWD/..")"
+
+cd "$root_dir" || exit 1
+
+eval "$(sh_lib/print_vars)"
+
+sh_lib/check_conf || exit 1
+
+docker-compose down

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+cd "$(dirname "$(command -v "$0")")" || exit 1
+
+root_dir="$(realpath "$PWD/..")"
+
+cd "$root_dir" || exit 1
+
+php vendor/bin/php-cs-fixer fix -v --diff --show-progress dots --dry-run

@@ -1,0 +1,31 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use App\Kernel;
+use Symfony\Component\Dotenv\Dotenv;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+(new Dotenv())->bootEnv(__DIR__ . '/../.env');
+
+$kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
+$kernel->boot();
+$container = $kernel->getContainer();
+
+/** @var Nelmio\Alice\Loader\SimpleFileLoader $loader */
+$loader = $container->get('app.nelmio_alice.file_loader.simple');
+$objectSet = $loader->loadFile(__DIR__ . '/../fixtures/fixtures-for-dredd.php');
+
+/** @var Doctrine\ORM\EntityManager $em */
+$em = $container->get('doctrine.orm.entity_manager');
+
+$objects = $objectSet->getObjects();
+foreach ($objects as $object) {
+    $em->persist($object);
+}
+
+echo sprintf('Stored %s objects into database.%s', number_format(count($objects)), PHP_EOL);
+
+$em->flush();

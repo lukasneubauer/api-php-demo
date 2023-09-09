@@ -1,0 +1,24 @@
+parameters:
+    level: 6
+    paths:
+        - src
+        - tests
+    checkGenericClassInNonGenericObjectType: false
+    checkMissingIterableValueType: false
+    ignoreErrors:
+        - '#Access to an undefined property Mockery\\LegacyMockInterface::\$headers\.#'
+        - '#Call to an undefined method Mockery\\Expectation.*\|Mockery\\HigherOrderMessage::times\(\)\.#'
+        - '#Dead catch - Doctrine\\DBAL\\Exception\\UniqueConstraintViolationException is never thrown in the try block\.#'
+        - '#Dynamic call to static method PHPUnit\\Framework\\Assert::.*\(\)\.#'
+        - '#Parameter \#1 \$apiTokenGenerator of class App\\Sessions\\ApiTokenRefresher constructor expects App\\Generators\\ApiTokenGenerator\, Mockery\\LegacyMockInterface given\.#'
+        - '#Parameter \#1 \$base64Decoder of class App\\Validators\\TryingToUploadAvatarImageOfUnsupportedTypeIfNotNull constructor expects App\\Base64\\Base64Decoder\, Mockery\\LegacyMockInterface given\.#'
+        - '#Parameter \#2 \$imageCheck of class App\\Validators\\TryingToUploadAvatarImageOfUnsupportedTypeIfNotNull constructor expects App\\Checks\\ImageCheck\, Mockery\\LegacyMockInterface given\.#'
+        - '#Parameter \#2 \$passwordCheck of class App\\Validators\\UserNotFoundByCredentials constructor expects App\\Passwords\\PasswordCheck\, Mockery\\LegacyMockInterface given\.#'
+        - '#Parameter \#2 \$user of class App\\Entities\\Session constructor expects App\\Entities\\User\, Mockery\\LegacyMockInterface given\.#'
+        - '#Parameter \#3 \$em of class App\\Sessions\\ApiTokenRefresher constructor expects Doctrine\\ORM\\EntityManager\, Mockery\\LegacyMockInterface given\.#'
+        - '#Tests\\SessionFactoryWithPredefinedApiToken::__construct\(\) does not call parent constructor from App\\EntityFactories\\SessionFactory\.#'
+        - '#Tests\\UserFactoryWithPredefinedToken::__construct\(\) does not call parent constructor from App\\EntityFactories\\UserFactory\.#'
+
+includes:
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon

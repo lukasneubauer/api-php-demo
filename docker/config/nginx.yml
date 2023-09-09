@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+
+    nginx:
+        build:
+            context: ../..
+            dockerfile: docker/images/nginx/Dockerfile
+        container_name: api-nginx
+        links:
+            - php:php-fpm

@@ -1,0 +1,3 @@
+/var/www/tests/*
+/var/www/vendor/**/Tests/*
+/var/www/vendor/**/tests/*

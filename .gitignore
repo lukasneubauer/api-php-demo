@@ -1,0 +1,11 @@
+/.env.local
+/.idea/
+/.php-cs-fixer.cache
+/.phpunit.result.cache
+/.web-server-pid
+/build/
+/nbproject/
+/node_modules/
+/public/bundles/
+/var/
+/vendor/

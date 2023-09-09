@@ -1,0 +1,103 @@
+imports:
+    - { resource: services.yaml }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    api_key: '%env(API_KEY)%'
+    database_charset: 'utf8mb4'
+    database_collate: 'utf8mb4_unicode_ci'
+    database_server_version: '8.0'
+    locale: 'cs_CZ'
+    emails_dir: 'emails'
+    no_reply_email: 'no-reply@example.com'
+    base_uri: 'http://example.com'
+    host: 'example.com'
+    project_name: 'XYZ'
+    account_activation_link_pattern: '%base_uri%/account_activation?email=%%s&token=%%s'
+    forgotten_password_link_pattern: '%base_uri%/forgotten_password?email=%%s&token=%%s'
+    active_algorithm: !php/const App\Passwords\PasswordAlgorithms::ARGON2ID
+    bcrypt_cost: 13
+    argon_time_cost: 4
+    argon_memory_cost: 65536
+    perform_request_validation: true
+
+framework:
+    #esi: ~
+    annotations: ~
+    translator:
+        paths:
+            - '%kernel.project_dir%/translations'
+        fallbacks:
+            - '%locale%'
+    enabled_locales: ['%locale%']
+    mailer:
+        dsn: '%env(MAILER_DSN)%'
+    secret: '%env(APP_SECRET)%'
+    router:
+        resource: '%kernel.project_dir%/config/routing.yaml'
+        strict_requirements: ~
+        utf8: true
+    #form: ~
+    #csrf_protection: ~
+    #validation: { enable_annotations: true }
+    #serializer: { enable_annotations: true }
+    property_access: ~
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    #session:
+    #    # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+    #    handler_id: session.handler.native_file
+    #    save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+    fragments: ~
+    http_method_override: true
+    #assets: ~
+    php_errors:
+        log: true
+
+# Twig Configuration
+twig:
+    paths: ['%kernel.project_dir%/templates']
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        dbname: '%env(DATABASE_NAME)%'
+        host: '%env(DATABASE_HOST)%'
+        port: '%env(DATABASE_PORT)%'
+        user: '%env(DATABASE_USERNAME)%'
+        password: '%env(DATABASE_PASSWORD)%'
+        charset: '%database_charset%'
+        driver: pdo_mysql
+        server_version: '%database_server_version%'
+        default_table_options:
+            charset: '%database_charset%'
+            collate: '%database_collate%'
+
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yaml
+        #     e.g. database_path: "%kernel.project_dir%/var/data/data.sqlite"
+        #   2. Uncomment database_path in parameters.yaml.dist
+        #   3. Uncomment next line:
+        #path: '%database_path%'
+
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        mappings:
+            App:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Entities'
+                prefix: 'App\Entities'
+                alias: App
+
+doctrine_migrations:
+    migrations_paths:
+        'Migrations': '%kernel.project_dir%/migrations'
+    storage:
+        table_storage:
+            table_name: 'migrations'
